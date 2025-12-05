@@ -1,0 +1,138 @@
+---
+title: Configuration
+description: Configure 2GC Documentation to match your workflow and requirements
+---
+
+## Configuration Options
+
+2GC Documentation offers extensive configuration options to customize the platform for your specific needs. From project settings to user preferences, you can tailor the experience to fit your team's workflow.
+
+<Columns cols={3}>
+  <Card title="Project Settings" icon="settings" href="#project-settings">
+    Configure project-specific options like themes and integrations.
+  </Card>
+  <Card title="User Preferences" icon="user" href="#user-prefs">
+    Personalize your interface and notification settings.
+  </Card>
+  <Card title="API Configuration" icon="code" href="#api-config">
+    Set up API endpoints and authentication for integrations.
+  </Card>
+</Columns>
+
+<Tabs>
+  <Tab title="Basic Config" icon="sliders">
+    Essential settings to get started.
+    
+    <CodeGroup tabs="JSON,Environment">
+      ```json
+      {
+        "project": {
+          "name": "My Docs",
+          "theme": "light",
+          "language": "en"
+        }
+      }
+      ```
+      ```bash
+      # Environment variables
+      export DOCS_PROJECT_NAME="My Docs"
+      export DOCS_THEME="light"
+      export DOCS_LANGUAGE="en"
+      ```
+    </CodeGroup>
+  </Tab>
+  <Tab title="Advanced Config" icon="cog">
+    Fine-tune performance and integrations.
+    
+    <Steps>
+      <Step title="Database Setup" icon="database">
+        Configure your database connection settings.
+        
+        <Request tabs="Connection Test" show-lines="true">
+          ```javascript
+          const testConnection = async () => {
+            try {
+              const response = await fetch('/api/db/test');
+              return response.ok;
+            } catch (error) {
+              console.error('Connection failed:', error);
+              return false;
+            }
+          };
+          ```
+        </Request>
+      </Step>
+      <Step title="Cache Configuration" icon="zap">
+        Set up caching for improved performance.
+      </Step>
+      <Step title="Webhook Setup" icon="webhook">
+        Configure webhooks for real-time updates.
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+<Callout kind="info">Configuration changes may require a restart of your documentation instance to take effect.</Callout>
+
+## Environment Variables
+
+Use environment variables to configure 2GC without modifying configuration files directly. This is especially useful for containerized deployments.
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `DOCS_PORT` | Server port | `3000` |
+| `DOCS_HOST` | Server host | `localhost` |
+| `DOCS_DB_URL` | Database URL | Required |
+
+<Expandable title="Database Configuration" default-open="false">
+  <Expandable title="SQLite" default-open="false">
+    For development: `DOCS_DB_URL="sqlite:./docs.db"`
+  </Expandable>
+  <Expandable title="PostgreSQL" default-open="false">
+    For production: `DOCS_DB_URL="postgresql://user:pass@host:port/db"`
+  </Expandable>
+</Expandable>
+
+<ExpandableGroup>
+  <Expandable title="SSL Configuration" default-open="false">
+    Enable SSL for secure connections in production environments.
+  </Expandable>
+  <Expandable title="Load Balancing" default-open="false">
+    Configure multiple instances behind a load balancer.
+  </Expandable>
+</ExpandableGroup>
+
+<Callout kind="tip">Use the `--dry-run` flag when testing configuration changes to validate settings without applying them.</Callout>
+
+<Request tabs="Validate Config" show-lines="false">
+  ```javascript
+  const validateConfig = async (config) => {
+    const response = await fetch('/api/config/validate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(config)
+    });
+    const result = await response.json();
+    return result.valid;
+  };
+  ```
+</Request>
+
+<Steps>
+  <Step title="Backup Current Config" icon="download">
+    Save your current configuration before making changes.
+  </Step>
+  <Step title="Apply Changes" icon="edit">
+    Update configuration files or environment variables.
+  </Step>
+  <Step title="Restart Service" icon="refresh-cw">
+    Restart 2GC to apply the new configuration.
+  </Step>
+  <Step title="Verify Changes" icon="check">
+    Test that the configuration is working as expected.
+  </Step>
+</Steps>
+
+For complex deployments, 2GC supports configuration files in JSON, YAML, or TOML formats. Choose the format that best fits your infrastructure.
+
+<Callout kind="alert">Always test configuration changes in a staging environment before applying them to production.</Callout>

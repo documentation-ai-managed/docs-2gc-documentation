@@ -1,0 +1,127 @@
+---
+title: Authentication
+description: Learn how to authenticate and manage access in 2GC Documentation
+---
+
+## Authentication Methods
+
+2GC Documentation supports multiple authentication methods to ensure secure access to your documentation projects. Choose the method that best fits your organization's needs.
+
+<Tabs>
+  <Tab title="API Keys" icon="key">
+    Use API keys for programmatic access to the 2GC API.
+    
+    <CodeGroup tabs="Generate,Use">
+      ```bash
+      # Generate an API key
+      curl -X POST https://api.2gc.com/keys \
+        -H "Authorization: Bearer YOUR_TOKEN" \
+        -d '{"name": "My App"}'
+      ```
+      ```javascript
+      // Use API key in requests
+      const headers = {
+        'Authorization': 'Bearer YOUR_API_KEY',
+        'Content-Type': 'application/json'
+      };
+      
+      fetch('/api/docs', { headers })
+        .then(response => response.json());
+      ```
+    </CodeGroup>
+  </Tab>
+  <Tab title="OAuth" icon="shield">
+    Integrate with OAuth providers for user authentication.
+    
+    <Steps>
+      <Step title="Configure Provider" icon="settings">
+        Set up your OAuth application in the provider's console.
+      </Step>
+      <Step title="Add Credentials" icon="key">
+        Enter the client ID and secret in 2GC settings.
+      </Step>
+      <Step title="Test Integration" icon="check">
+        Verify the OAuth flow works correctly.
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="SSO" icon="users">
+    Use Single Sign-On for enterprise authentication.
+  </Tab>
+</Tabs>
+
+<Columns cols={2}>
+  <Card title="Security Best Practices" icon="lock" href="#security">
+    Learn how to keep your documentation secure.
+  </Card>
+  <Card title="Access Control" icon="user-check" href="#permissions">
+    Manage user permissions and roles.
+  </Card>
+</Columns>
+
+<Callout kind="info">Always use HTTPS when making API requests to ensure data security in transit.</Callout>
+
+## Managing Permissions
+
+Control access to your documentation with granular permissions. Assign roles to team members based on their responsibilities.
+
+| Role | Permissions |
+|------|-------------|
+| Viewer | Read-only access to documents |
+| Editor | Can edit and create documents |
+| Admin | Full access including user management |
+
+<Expandable title="Role Details" default-open="false">
+  <Expandable title="Viewer Role" default-open="false">
+    Viewers can read documents but cannot make changes or invite new users.
+  </Expandable>
+  <Expandable title="Editor Role" default-open="false">
+    Editors can create, edit, and delete documents within their assigned projects.
+  </Expandable>
+  <Expandable title="Admin Role" default-open="false">
+    Admins have full control over projects, users, and settings.
+  </Expandable>
+</Expandable>
+
+<ExpandableGroup>
+  <Expandable title="Permission Conflicts" default-open="false">
+    If a user has conflicting permissions from different roles, the most permissive access is granted.
+  </Expandable>
+  <Expandable title="Audit Logs" default-open="false">
+    All permission changes are logged for security auditing.
+  </Expandable>
+</ExpandableGroup>
+
+<Callout kind="alert">Regularly review and update user permissions to maintain security as your team grows.</Callout>
+
+<Request tabs="Update Permissions" show-lines="false">
+  ```javascript
+  const updatePermissions = async (userId, permissions) => {
+    const response = await fetch(`/api/users/${userId}/permissions`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'Bearer YOUR_TOKEN',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ permissions })
+    });
+    return response.json();
+  };
+  ```
+</Request>
+
+<Steps>
+  <Step title="Review Users" icon="users">
+    Check the current user list and their roles.
+  </Step>
+  <Step title="Assign Roles" icon="user-plus">
+    Update user roles based on their responsibilities.
+  </Step>
+  <Step title="Test Access" icon="check-circle">
+    Verify users can access the appropriate resources.
+  </Step>
+</Steps>
+
+For advanced authentication scenarios, 2GC supports custom authentication providers and webhooks for integration with your existing identity systems.
+
+<Callout kind="tip">Use multi-factor authentication (MFA) for admin accounts to add an extra layer of security.</Callout>

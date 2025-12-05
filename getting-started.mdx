@@ -1,0 +1,145 @@
+---
+title: Getting Started
+description: Quick guide to set up and start using 2GC Documentation
+---
+
+## Quick Start Guide
+
+Welcome to 2GC Documentation! This guide will help you get started with creating your first documentation project. We'll cover everything from account setup to publishing your first document.
+
+<Steps>
+  <Step title="Create Account" icon="user">
+    Visit 2gc.com and click "Sign Up". Fill in your details and verify your email.
+    
+    <CodeGroup tabs="Email Verification">
+      ```javascript
+      // Check your email for verification link
+      const verifyEmail = async (token) => {
+        const response = await fetch('/api/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token })
+        });
+        return response.ok;
+      };
+      ```
+    </CodeGroup>
+  </Step>
+  <Step title="Set Up Project" icon="folder">
+    Once logged in, click "New Project" and choose a template or start from scratch.
+  </Step>
+  <Step title="Add Content" icon="file-text">
+    Create your first document using our Markdown editor.
+    
+    <Tabs>
+      <Tab title="Web Editor" icon="edit">
+        Use our built-in editor for quick edits.
+        
+        <Request tabs="Save Document" show-lines="false">
+          ```javascript
+          const saveDoc = async (content) => {
+            const response = await fetch('/api/docs', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ content })
+            });
+            return response.json();
+          };
+          ```
+        </Request>
+      </Tab>
+      <Tab title="Import Files" icon="upload">
+        Upload existing Markdown or HTML files.
+      </Tab>
+    </Tabs>
+  </Step>
+  <Step title="Publish" icon="globe">
+    Publish your documentation and share the link with your team.
+  </Step>
+</Steps>
+
+<Columns cols={2}>
+  <Card title="Templates" icon="file" href="#templates">
+    Choose from pre-built templates to get started faster.
+  </Card>
+  <Card title="Tutorials" icon="book-open" href="#tutorials">
+    Follow step-by-step tutorials for common tasks.
+  </Card>
+</Columns>
+
+<Callout kind="info">Remember to save your work regularly. 2GC automatically saves drafts, but manual saves ensure your changes are preserved.</Callout>
+
+## First Document
+
+Let's create your first document. Start with a simple structure:
+
+<Tabs>
+  <Tab title="Basic Structure" icon="list">
+    ```markdown
+    # My First Document
+    
+    ## Introduction
+    This is my first document in 2GC.
+    
+    ## Features
+    - Easy to use
+    - Fast setup
+    - Great support
+    ```
+  </Tab>
+  <Tab title="Advanced Structure" icon="settings">
+    ```markdown
+    # Advanced Documentation
+    
+    ## API Reference
+    
+    ### Endpoint: GET /docs
+    Retrieves all documents.
+    
+    Parameters:
+    - `limit`: Number of docs to return (max 100)
+    
+    Response:
+    ```json
+    {
+      "docs": [
+        {
+          "id": "123",
+          "title": "Sample Doc"
+        }
+      ]
+    }
+    ```
+    ```
+  </Tab>
+</Tabs>
+
+<Expandable title="Troubleshooting" default-open="false">
+  If you encounter issues during setup, check our troubleshooting guide or contact support.
+</Expandable>
+
+<ExpandableGroup>
+  <Expandable title="Account Issues" default-open="false">
+    Can't access your account? Reset your password or check your email verification.
+  </Expandable>
+  <Expandable title="Project Setup" default-open="false">
+    Having trouble creating a project? Ensure you have the correct permissions.
+  </Expandable>
+</ExpandableGroup>
+
+<Callout kind="tip">Use the search feature to quickly find existing documentation within your projects.</Callout>
+
+Once you've created your first document, explore the collaboration features by inviting team members and setting up review workflows. 2GC Documentation makes it easy to maintain high-quality technical content.
+
+<Request tabs="Invite Team" show-lines="true">
+  ```javascript
+  const inviteUser = async (email, role) => {
+    const response = await fetch('/api/projects/invite', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, role })
+    });
+    return response.json();
+  };
+  ```
+</Request>
